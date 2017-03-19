@@ -1,0 +1,16 @@
+{
+	CHANNEL RemoteChannel
+		TCP
+			ADDRESS := 192.168.88.65;
+			PORT    := 1534;
+		END_TCP
+	END_CHANNEL
+}
+
+CONFIGURATION RemoteConfiguration
+	RESOURCE remote ON Raspbian { ON_CHANNEL := RemoteChannel }
+		TASK DefaultTask(INTERVAL := TIME#2000ms, PRIORITY := 38229);
+		PROGRAM Counter WITH DefaultTask :
+			MAX7311_Usage;
+	END_RESOURCE
+END_CONFIGURATION

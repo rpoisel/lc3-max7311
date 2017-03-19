@@ -1,0 +1,17 @@
+PROGRAM MAX7311_Usage
+	VAR
+		i2c_fd : DINT := -1;
+		values : ARRAY [0..7] OF BOOL := [ TRUE, FALSE, TRUE, FALSE, TRUE, FALSE, TRUE, FALSE ];
+		cnt : INT;
+	END_VAR
+
+	IF i2c_fd = -1 THEN
+		i2c_fd := I2C_open(bus_id := 1, ENO => ENO);
+	ELSE
+		I2C_MAX7311_write(fd := i2c_fd, address := 16#20, pin_values := values);
+	END_IF;
+
+	FOR cnt := 0 TO 7 BY 1 DO
+	  values[cnt] := NOT values[cnt];
+	END_FOR;
+END_PROGRAM
